@@ -164,7 +164,7 @@ jobs:
       run: |
           echo "Changing to configuration directory: $CONFIG..."
           cd "$CONFIG"
-          
+          cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
           echo "Running sed commands..."
           
           # Run sed commands for modifications
