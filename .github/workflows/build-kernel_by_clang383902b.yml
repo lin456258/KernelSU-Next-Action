@@ -161,7 +161,7 @@ jobs:
         max-size: 2G
     
     - name: Run sed and perl Commands
-        run: |
+      run: |
           echo "Changing to configuration directory: $CONFIG..."
           cd "$CONFIG"
           
