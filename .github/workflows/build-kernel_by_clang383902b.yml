@@ -91,11 +91,40 @@ jobs:
 
 
 
+
+
+
+
+
+
+    - name: Set CONFIG Environment Variable
+      run: |
+          # Set CONFIG dynamically based on matrix values
+          CONFIG="${{ matrix.android_version }}-${{ matrix.kernel_version }}-${{ matrix.sub_level }}"
+          
+          # Set CONFIG as an environment variable for future steps
+          echo "CONFIG=$CONFIG" >> $GITHUB_ENV
+          
+          echo "CONFIG set to: $CONFIG"
+
+
+    - name: Set CONFIG Environment Variable
+      run: |
+          # Set CONFIG dynamically based on matrix values
+          CONFIG="${{ matrix.android_version }}-${{ matrix.kernel_version }}-${{ matrix.sub_level }}"
+          
+          # Set CONFIG as an environment variable for future steps
+          echo "CONFIG=$CONFIG" >> $GITHUB_ENV
+          
+          echo "CONFIG set to: $CONFIG"
+      
+
+
     - name: Apply SUSFS Patches
       run: |
           echo "Changing to configuration directory: $CONFIG..."
           cd "$CONFIG"
-          cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
+         
           
           echo "Applying SUSFS patches..."
           
@@ -166,6 +195,10 @@ jobs:
           
           # Add additional tmpfs config setting
           echo "CONFIG_TMPFS_XATTR=y" >> ./arch/arm64/configs/gki_defconfig
+
+
+
+
 
 
 
