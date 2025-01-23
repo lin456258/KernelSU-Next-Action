@@ -154,7 +154,7 @@ jobs:
     - name: Apply SUSFS Patches
       run: |
           echo "Changing to configuration directory: $CONFIG..."
-          cd "$CONFIG"
+          cd "AnyKernel3-$CONFIG"
           
           echo "Applying SUSFS patches..."
 
