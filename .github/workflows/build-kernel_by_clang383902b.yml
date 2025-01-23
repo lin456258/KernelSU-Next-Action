@@ -154,6 +154,8 @@ jobs:
     - name: Apply SUSFS Patches
       run: |
           echo "Changing to configuration directory: $CONFIG..."
+          mkdir -p "AnyKernel3-$CONFIG"
+          
           cd "AnyKernel3-$CONFIG"
           
           echo "Applying SUSFS patches..."
@@ -178,7 +180,7 @@ jobs:
     - name: Apply Next-SUSFS Patches
       run: |
           echo "Changing to configuration directory: $CONFIG..."
-          cd "$CONFIG"
+          cd "$AnyKernel3-CONFIG"
           
           echo "Applying next SUSFS patches..."
           
@@ -193,7 +195,7 @@ jobs:
     - name: Add SUSFS Configuration Settings
       run: |
           echo "Changing to configuration directory: $CONFIG..."
-          cd "$CONFIG"
+          cd "AnyKernel3-$CONFIG"
           
           echo "Adding configuration settings to gki_defconfig..."
           
