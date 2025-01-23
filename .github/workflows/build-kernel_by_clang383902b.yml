@@ -127,6 +127,7 @@ jobs:
           cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
 
           # Copy SUSFS patches
+          git clone --depth=1 https://github.com/rifsxd/KernelSU-Next.git
           cp ./susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./KernelSU-Next/
           cp ./susfs4ksu/kernel_patches/50_add_susfs_in_kernel-4.19.patch ./
           cp ./susfs4ksu/kernel_patches/fs/* ./fs/
@@ -134,7 +135,6 @@ jobs:
 
           
           # Apply SUSFS patch for KernelSU
-          git clone --depth=1 https://github.com/rifsxd/KernelSU-Next.git
           cd ./KernelSU-Next/
           patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
           
