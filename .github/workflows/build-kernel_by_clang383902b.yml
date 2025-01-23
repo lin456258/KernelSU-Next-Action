@@ -140,12 +140,6 @@ jobs:
         curl -LSs "https://raw.githubusercontent.com/rifsxd/KernelSU-Next/next/kernel/setup.sh" | bash -s next
 
 
-        
-        mkdir -p "$KernelSU-Next"
-        cd "KernelSU-Next"
-        git clone https://github.com/rifsxd/KernelSU-Next.git
-
-
 
 
 
@@ -167,6 +161,8 @@ jobs:
           echo "Applying SUSFS patches..."
 
           # Copy SUSFS patches
+          cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
+          git clone https://github.com/rifsxd/KernelSU-Next.git
           
           cp ../susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./KernelSU-Next/
           cp ../susfs4ksu/kernel_patches/50_add_susfs_in_kernel-4.19.patch ./
