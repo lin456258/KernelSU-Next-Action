@@ -185,7 +185,7 @@ jobs:
           
           echo "Applying next SUSFS patches..."
           cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
-          git clone https://github.com/TheWildJames/kernel_patches.git
+          
           cp ../kernel_patches–main/apk_sign.c_fix.patch ./
           patch -p1 -F 3 < apk_sign.c_fix.patch
           cp ../kernel_patches–main/core_hook.c_fix.patch ./
