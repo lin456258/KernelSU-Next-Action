@@ -15,6 +15,15 @@ jobs:
       CCACHE_NOHASHDIR: "true"
       CCACHE_HARDLINK: "true"
       CI: "false"
+      
+    strategy:
+      matrix:
+        include:
+          - android_version: "android"
+            kernel_version: "4.19"
+            sub_level: "157"
+            os_patch_level: "2023-11"
+            
     steps:
     - uses: actions/checkout@v4
     - name: Prepare Configuration
