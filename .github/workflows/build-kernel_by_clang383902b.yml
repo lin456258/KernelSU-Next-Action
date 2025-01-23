@@ -155,6 +155,7 @@ jobs:
       run: |
           echo "Changing to configuration directory: $CONFIG..."
           mkdir -p "AnyKernel3-$CONFIG"
+          git clone https://github.com/rifsxd/KernelSU-Next.git
           
           cd "AnyKernel3-$CONFIG"
           
