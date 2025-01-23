@@ -138,7 +138,12 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
         curl -LSs "https://raw.githubusercontent.com/rifsxd/KernelSU-Next/next/kernel/setup.sh" | bash -s next
-      
+
+
+        
+        mkdir -p "$KernelSU-Next"
+        cd "KernelSU-Next"
+        git clone https://github.com/rifsxd/KernelSU-Next.git
 
 
 
@@ -154,8 +159,8 @@ jobs:
     - name: Apply SUSFS Patches
       run: |
           echo "Changing to configuration directory: $CONFIG..."
+          cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
           mkdir -p "AnyKernel3-$CONFIG"
-          git clone https://github.com/rifsxd/KernelSU-Next.git
           
           cd "AnyKernel3-$CONFIG"
           
