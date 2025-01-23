@@ -62,7 +62,6 @@ jobs:
         git clone https://github.com/tomxi1997/Toolchain.git clang-aosp --depth=1
           
         
-
     
     - name: Download kernel source
       run: |
@@ -77,6 +76,47 @@ jobs:
         if [ -f boot-source.img ]; then
             echo "HAVE_SOURCE_BOOT_IMAGE=true" >> $GITHUB_ENV
         fi
+
+
+
+
+
+
+
+
+
+
+    - name: Set CONFIG Environment Variable
+      run: |
+          # Set CONFIG dynamically based on matrix values
+          CONFIG="${{ matrix.android_version }}-${{ matrix.kernel_version }}-${{ matrix.sub_level }}"
+          
+          # Set CONFIG as an environment variable for future steps
+          echo "CONFIG=$CONFIG" >> $GITHUB_ENV
+          
+          echo "CONFIG set to: $CONFIG"
+
+
+    - name: Set CONFIG Environment Variable
+      run: |
+          # Set CONFIG dynamically based on matrix values
+          CONFIG="${{ matrix.android_version }}-${{ matrix.kernel_version }}-${{ matrix.sub_level }}"
+          
+          # Set CONFIG as an environment variable for future steps
+          echo "CONFIG=$CONFIG" >> $GITHUB_ENV
+          
+          echo "CONFIG set to: $CONFIG"
+
+
+
+
+
+
+
+
+
+
+
   
     - name: Setup KernelSU-Next
       if: env.ENABLE_KERNELSU == 'true'
@@ -93,41 +133,24 @@ jobs:
 
 
 
-
-
-
-
-    - name: Set CONFIG Environment Variable
+    - name: Add KernelSU
       run: |
-          # Set CONFIG dynamically based on matrix values
-          CONFIG="${{ matrix.android_version }}-${{ matrix.kernel_version }}-${{ matrix.sub_level }}"
+          echo "Changing to configuration directory: $CONFIG..."
+          cd "$CONFIG"
           
-          # Set CONFIG as an environment variable for future steps
-          echo "CONFIG=$CONFIG" >> $GITHUB_ENV
-          
-          echo "CONFIG set to: $CONFIG"
+          echo "Adding KernelSU..."
+          curl -LSs "https://raw.githubusercontent.com/rifsxd/KernelSU-Next/next/kernel/setup.sh" | bash -
 
-
-    - name: Set CONFIG Environment Variable
-      run: |
-          # Set CONFIG dynamically based on matrix values
-          CONFIG="${{ matrix.android_version }}-${{ matrix.kernel_version }}-${{ matrix.sub_level }}"
-          
-          # Set CONFIG as an environment variable for future steps
-          echo "CONFIG=$CONFIG" >> $GITHUB_ENV
-          
-          echo "CONFIG set to: $CONFIG"
-      
 
 
     - name: Apply SUSFS Patches
       run: |
           echo "Changing to configuration directory: $CONFIG..."
+          cd "$CONFIG"
 
-          cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
+          echo "Applying SUSFS patches..."
 
           # Copy SUSFS patches
-          cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
           
           cp ./susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./KernelSU-Next/
           cp ./susfs4ksu/kernel_patches/50_add_susfs_in_kernel-4.19.patch ./
@@ -144,7 +167,19 @@ jobs:
           patch -p1 < 50_add_susfs_in_kernel-${{ matrix.android_version }}-${{ matrix.kernel_version }}.patch || true
           
 
-
+    - name: Apply Next-SUSFS Patches
+      run: |
+          echo "Changing to configuration directory: $CONFIG..."
+          cd "$CONFIG"
+          
+          echo "Applying next SUSFS patches..."
+          
+          cp ./kernel_patches/apk_sign.c_fix.patch ./
+          patch -p1 -F 3 < apk_sign.c_fix.patch
+          cp ./kernel_patches/core_hook.c_fix.patch ./
+          patch -p1 --fuzz=3 < core_hook.c_fix.patch
+          cp ./kernel_patches/selinux.c_fix.patch ./
+          patch -p1 -F 3 < selinux.c_fix.patch
     
       
     - name: Add SUSFS Configuration Settings
@@ -155,7 +190,7 @@ jobs:
           echo "Adding configuration settings to gki_defconfig..."
           
           # Add SUSFS configuration settings
-          cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
+          
           echo "CONFIG_KSU=y" >> ./arch/arm64/configs/gki_defconfig
           echo "CONFIG_KSU_SUSFS=y" >> ./arch/arm64/configs/gki_defconfig
           echo "CONFIG_KSU_SUSFS_HAS_MAGIC_MOUNT=y" >> ./arch/arm64/configs/gki_defconfig
@@ -179,15 +214,16 @@ jobs:
 
 
     
-
     - name: Apply Hide Stuff Patches
       run: |
           echo "Changing to configuration directory: $CONFIG..."
-          cd ./
+          cd "$CONFIG/"
           # Apply additional patch
           cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
           cp ./kernel_patches/69_hide_stuff.patch ./
           patch -p1 -F 3 < 69_hide_stuff.patch || true
+
+
 
 
 
