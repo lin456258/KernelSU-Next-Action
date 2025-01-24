@@ -175,6 +175,28 @@ jobs:
           patch -p1 < 50_add_susfs_in_kernel-${{ matrix.android_version }}-${{ matrix.kernel_version }}.patch || true
           
 
+    - name: Apply Next-SUSFS Patches
+      run: |
+          echo "Changing to configuration directory: $CONFIG..."
+          cd "$CONFIG"
+          
+          echo "Applying next SUSFS patches..."
+
+          cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
+          cp ./kernel_patches/apk_sign.c_fix.patch ./
+          patch -p1 -F 3 < apk_sign.c_fix.patch
+          
+          cp ./kernel_patches/core_hook.c_fix.patch ./
+          patch -p1 --fuzz=3 < core_hook.c_fix.patch
+          
+          cp ./kernel_patches/selinux.c_fix.patch ./
+          patch -p1 -R < selinux.c_fix.patch
+          patch -p1 -F 3 < selinux.c_fix.patch
+
+
+
+
+
     
 
     
@@ -318,7 +340,7 @@ jobs:
           # Run sed commands for modifications
 
           sed -i 's/check_defconfig//' ./build.config.gki
-          sed -i '$s|echo "\$res"|echo "-安卓13-六百六十六-酷安@我叫鳞"|' ./scripts/setlocalversion
+          sed -i '$s|echo "\$res"|echo "-2060傻妞-六百六十六-酷安@我叫鳞"|' ./scripts/setlocalversion
          
 
           # Run perl command to modify UTS_VERSION
