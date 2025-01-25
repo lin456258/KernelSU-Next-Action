@@ -142,9 +142,8 @@ jobs:
       if: env.ENABLE_KERNELSU == 'true'
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
-        rm KernelSU-Next
-        mkdir KernelSU-Next
-        git clone https://github.com/rifsxd/KernelSU-Next/tree/next.git KernelSU-Next
+        
+        
         curl -LSs "https://raw.githubusercontent.com/rifsxd/KernelSU-Next/next/kernel/setup.sh" | bash -s next
 
 
@@ -162,25 +161,25 @@ jobs:
       run: |
           echo "Changing to configuration directory: $CONFIG..."
           
-          mkdir -p "$CONFIG"
-          cd "$CONFIG"
+          # mkdir -p "$CONFIG"
+          
           
           echo "Applying SUSFS patches..."
 
           # Copy SUSFS patches
-          
-          cp ../susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ../KernelSU-Next/
-          cp ../susfs4ksu/kernel_patches/50_add_susfs_in_kernel-4.19.patch ../
-          cp ../susfs4ksu/kernel_patches/fs/* ../fs/
-          cp ../susfs4ksu/kernel_patches/include/linux/* ../include/linux/
+          cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
+          cp ./susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./KernelSU-Next/
+          cp ./susfs4ksu/kernel_patches/50_add_susfs_in_kernel-4.19.patch ./
+          cp ./susfs4ksu/kernel_patches/fs/* ./fs/
+          cp ./susfs4ksu/kernel_patches/include/linux/* ./include/linux/
 
           
           # Apply SUSFS patch for KernelSU
-          cd ../KernelSU-Next/
+          cd ./KernelSU-Next/
           patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
           
           # Change to common directory and apply SUSFS patch
-          cd ../../
+          cd ../
           patch -p1 < 50_add_susfs_in_kernel-${{ matrix.android_version }}-${{ matrix.kernel_version }}.patch || true
           
 
@@ -192,13 +191,13 @@ jobs:
           echo "Applying next SUSFS patches..."
 
           cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
-          cp ../kernel_patches/apk_sign.c_fix.patch ./
+          cp ./kernel_patches/apk_sign.c_fix.patch ./
           patch -p1 -F 3 < apk_sign.c_fix.patch
           
-          cp ../kernel_patches/core_hook.c_fix.patch ./
+          cp ./kernel_patches/core_hook.c_fix.patch ./
           patch -p1 --fuzz=3 < core_hook.c_fix.patch
           
-          cp ../kernel_patches/selinux.c_fix.patch ./
+          cp ./kernel_patches/selinux.c_fix.patch ./
           patch -p1 -R < selinux.c_fix.patch
           patch -p1 -F 3 < selinux.c_fix.patch
 
@@ -206,25 +205,25 @@ jobs:
     - name: Apply Next-SUSFS Patches
       run: |
           echo "Changing to configuration directory: $CONFIG..."
-          cd "$CONFIG"
+          
 
          
           echo "Applying next SUSFS patches..."
-          cp ../kernel_patches/apk_sign.c_fix.patch ./
+          cp ./kernel_patches/apk_sign.c_fix.patch ./
           patch -p1 -F 3 < apk_sign.c_fix.patch
-          cp ../kernel_patches/core_hook.c_fix.patch ./
+          cp ./kernel_patches/core_hook.c_fix.patch ./
           patch -p1 --fuzz=3 < core_hook.c_fix.patch
-          cp ../kernel_patches/selinux.c_fix.patch ./
+          cp ./kernel_patches/selinux.c_fix.patch ./
           patch -p1 -F 3 < selinux.c_fix.patch
 
 
     - name: Apply Hide Stuff Patches
       run: |
           echo "Changing to configuration directory: $CONFIG..."
-          cd "$CONFIG"
+          # cd "$CONFIG"
           # Apply additional patch
           cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
-          cp ../../kernel_patches/69_hide_stuff.patch ./
+          cp ../kernel_patches/69_hide_stuff.patch ./
           patch -p1 -F 3 < 69_hide_stuff.patch || true
 
 
