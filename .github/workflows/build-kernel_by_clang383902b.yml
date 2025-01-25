@@ -122,7 +122,7 @@ jobs:
           echo "Using branch for SUSFS: $SUSFS_BRANCH"
 
           # Clone repositorie using the brance names
-          cd $GITHUB_WORKSPACE/kernel_workspace/android-kernels
+          cd $GITHUB_WORKSPACE/kernel_workspace
           
           git clone https://github.com/TheWildJames/AnyKernel3.git -b "$ANYKERNEL_BRANCH"
           git clone https://gitlab.com/simonpunk/susfs4ksu.git -b "$SUSFS_BRANCH"
@@ -170,10 +170,10 @@ jobs:
 
           # Copy SUSFS patches
           cd $GITHUB_WORKSPACE/kernel_workspace
-          cp ../susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./KernelSU-Next/
-          cp ../susfs4ksu/kernel_patches/50_add_susfs_in_kernel-4.19.patch ./
-          cp ../susfs4ksu/kernel_patches/fs/* ./fs/
-          cp ../susfs4ksu/kernel_patches/include/linux/* ./include/linux/
+          cp ./susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./KernelSU-Next/
+          cp ./susfs4ksu/kernel_patches/50_add_susfs_in_kernel-4.19.patch ./
+          cp ./susfs4ksu/kernel_patches/fs/* ./fs/
+          cp ./susfs4ksu/kernel_patches/include/linux/* ./include/linux/
 
           
           # Apply SUSFS patch for KernelSU
