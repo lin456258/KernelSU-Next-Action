@@ -142,8 +142,9 @@ jobs:
       if: env.ENABLE_KERNELSU == 'true'
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
-        ls
-       
+        rm KernelSU-Next
+        mkdir KernelSU-Next
+        git clone https://github.com/rifsxd/KernelSU-Next/tree/next.git KernelSU-Next
         curl -LSs "https://raw.githubusercontent.com/rifsxd/KernelSU-Next/next/kernel/setup.sh" | bash -s next
 
 
