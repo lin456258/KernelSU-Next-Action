@@ -143,7 +143,7 @@ jobs:
     - name: Setup KernelSU-Next
       if: env.ENABLE_KERNELSU == 'true'
       run: |
-        cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
+        cd $GITHUB_WORKSPACE/kernel_workspace
         
         
         curl -LSs "https://raw.githubusercontent.com/rifsxd/KernelSU-Next/next/kernel/setup.sh" | bash -s next
@@ -169,7 +169,7 @@ jobs:
           echo "Applying SUSFS patches..."
 
           # Copy SUSFS patches
-          cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
+          cd $GITHUB_WORKSPACE/kernel_workspace
           cp ../susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch ./KernelSU-Next/
           cp ../susfs4ksu/kernel_patches/50_add_susfs_in_kernel-4.19.patch ./
           cp ../susfs4ksu/kernel_patches/fs/* ./fs/
