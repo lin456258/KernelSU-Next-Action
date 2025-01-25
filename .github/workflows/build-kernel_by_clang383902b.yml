@@ -158,6 +158,9 @@ jobs:
     - name: Apply SUSFS Patches
       run: |
           echo "Changing to configuration directory: $CONFIG..."
+          cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
+          git clone https://github.com/rifsxd/KernelSU-Next.git --depth=1
+          
           mkdir -p "$CONFIG"
           cd "$CONFIG"
           
