@@ -193,13 +193,13 @@ jobs:
           echo "Applying next SUSFS patches..."
 
           cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
-          cp ../kernel_patches/apk_sign.c_fix.patch ./
+          cp ../ksufs/kernel/apk_sign.c_fix.patch ./
           patch -p1 -F 3 < apk_sign.c_fix.patch
           
-          cp ../kernel_patches/core_hook.c_fix.patch ./
+          cp ../ksufs/kernel/core_hook.c_fix.patch ./
           patch -p1 --fuzz=3 < core_hook.c_fix.patch
           
-          cp ../kernel_patches/selinux.c_fix.patch ./
+          cp ../ksufs/kernel/selinux.c_fix.patch ./
           patch -p1 -R < selinux.c_fix.patch
           patch -p1 -F 3 < selinux.c_fix.patch
 
