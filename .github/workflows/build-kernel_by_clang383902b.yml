@@ -146,7 +146,7 @@ jobs:
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
         
         
-        curl -LSs "https://github.com/rifsxd/KernelSU-Next/blob/next-susfs/kernel/setup.sh" | bash -s
+        curl -LSs "https://raw.githubusercontent.com/rifsxd/KernelSU-Next/next/kernel/setup.sh" | bash -s next-susfs
 
 
 
