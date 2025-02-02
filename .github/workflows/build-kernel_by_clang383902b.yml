@@ -146,7 +146,7 @@ jobs:
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
         
         
-        curl -LSs "https://raw.githubusercontent.com/rifsxd/KernelSU-Next/next/kernel/setup.sh" | bash -s next-susfs
+        curl -LSs "https://raw.githubusercontent.com/rifsxd/KernelSU-Next/next/kernel/setup.sh" | bash -s next
 
 
 
@@ -196,8 +196,8 @@ jobs:
 
           cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
           cp ../kernel_patches/apk_sign.c_fix.patch ./
-          #patch -p1 -R < apk_sign.c_fix.patch
-          #patch -p1 -F 3 < apk_sign.c_fix.patch
+          patch -p1 -R < apk_sign.c_fix.patch
+          patch -p1 -F 3 < apk_sign.c_fix.patch
           
           cp ../kernel_patches/core_hook.c_fix.patch ./
           patch -p1 -R < core_hook.c_fix.patch
