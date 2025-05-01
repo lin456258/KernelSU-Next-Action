@@ -181,7 +181,7 @@ jobs:
 
           
           # Apply SUSFS patch for KernelSU
-          cd ./KernelSU-Next
+          cd ./SukiSU-Ultra
           patch -p1 --forward < 10_enable_susfs_for_ksu.patch || true
           
           # Change to common directory and apply SUSFS patch
